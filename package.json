@@ -1,0 +1,44 @@
+{
+  "name": "@twetch/bsvabi",
+  "version": "0.0.1",
+  "description": "bsvabi helpers",
+  "main": "bsvabi.js",
+  "scripts": {
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/twetch-inc/bsvabi.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/twetch-inc/bsvabi/issues"
+  },
+  "homepage": "https://github.com/twetch-inc/bsvabi#readme",
+  "devDependencies": {
+    "babel-eslint": "10.0.3",
+    "eslint": "6.5.1",
+    "eslint-config-prettier": "6.3.0",
+    "eslint-plugin-class-property": "1.1.0",
+    "eslint-plugin-prettier": "3.1.1",
+    "eslint-plugin-react": "7.15.1",
+    "eslint-plugin-react-hooks": "2.1.1",
+    "husky": "3.0.8",
+    "lint-staged": "9.4.1",
+    "nodemon": "1.19.3",
+    "prettier": "1.18.2"
+  },
+  "lint-staged": {
+    "**/*.js": [
+      "prettier --write",
+      "./node_modules/.bin/eslint --fix",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  }
+}
