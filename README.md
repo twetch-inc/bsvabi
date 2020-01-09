@@ -8,7 +8,7 @@ npm i @twetch/bsvabi
 
 ## Usage
 
-```
+```javascript
 const BSVABI = require('@twetch/bsvabi');
 
 const abiSchema = ...;
@@ -30,18 +30,21 @@ twetchABI.action('post').fromArgs(['hello world', ...]).toObject(); // returns {
 ### `action(type)`
 Params:
 - type (string) - name of the abi action
+
 Response:
 - the BSVABI instance w/ the action selected
 
 ### `fromArgs(args)`
 Params:
 - args (array) - array of arguments for the abi
+
 Response:
 - this BSVABI instance, but now validated. Errors thrown if validation fails 
 
 ### `fromTX(rawtx)`
 Params:
 - rawtx (string) - a raw transaction
+
 Response:
 - this BSVABI instance, but now validated. Errors thrown if validation fails 
 
