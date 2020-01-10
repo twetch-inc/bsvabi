@@ -16,7 +16,12 @@
     "url": "https://github.com/twetch-inc/bsvabi/issues"
   },
   "homepage": "https://github.com/twetch-inc/bsvabi#readme",
+  "dependencies": {
+    "bitcoinjs-lib": "5.1.7",
+    "bsv": "1.2.0"
+  },
   "devDependencies": {
+    "axios": "^0.19.1",
     "babel-eslint": "10.0.3",
     "eslint": "6.5.1",
     "eslint-config-prettier": "6.3.0",
@@ -41,8 +46,4 @@
       "pre-commit": "lint-staged"
     }
   },
-  "dependencies": {
-    "bitcoinjs-lib": "5.1.7",
-    "bsv": "1.2.0"
-  }
 }
