@@ -40,5 +40,9 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
+  },
+  "dependencies": {
+    "bitcoinjs-lib": "5.1.7",
+    "bsv": "1.2.0"
   }
 }
