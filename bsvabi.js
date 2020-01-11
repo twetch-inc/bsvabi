@@ -19,7 +19,9 @@ class BSVABI {
 	}
 
 	fromObject(object) {
-		this.args = this.action.args.map((e, i) => object[e.name] || e.value);
+		this.args = this.action.args.map(
+			(e, i) => object[e.name] || e.value || e.replaceValue || e.defaultValue
+		);
 		this.validate();
 		return this;
 	}
