@@ -18,6 +18,12 @@ class BSVABI {
 		return this;
 	}
 
+	fromObject(object) {
+		this.args = this.action.args.map((e, i) => object[e.name] || e.value);
+		this.validate();
+		return this;
+	}
+
 	fromTx(tx) {
 		const transaction = Transaction.decodeTx(tx);
 		this.args = transaction.vout.find(e => e.scriptPubKey.opReturn).scriptPubKey.opReturn.parts;
