@@ -3,8 +3,11 @@ const bsv = require('bsv');
 
 class Signature {
 	static verify(message, address, signature) {
-		message = Signature.sha256(message);
+		return Message.verify(message, address, signature);
+	}
 
+	static sha256Verify(message, address, signature) {
+		message = Signature.sha256(message);
 		return Message.verify(message, address, signature);
 	}
 
