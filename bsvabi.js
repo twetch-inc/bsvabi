@@ -49,6 +49,18 @@ class BSVABI {
 			.reduce((a, e) => Object.assign(a, { [e.name]: e.value }), {});
 	}
 
+	replace(key, value) {
+		this.args = this.args.map((e, i) => {
+			if (this.action.args[i].replaceValue === key) {
+				return value;
+			}
+
+			return e;
+		});
+
+		return this;
+	}
+
 	validate() {
 		const errors = [];
 
