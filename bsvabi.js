@@ -40,10 +40,12 @@ class BSVABI {
 	}
 
 	toArray() {
+		this.validate();
 		return this.args;
 	}
 
 	toObject() {
+		this.valiate();
 		return this.action.args
 			.map((e, i) => ({ ...e, value: this.args[i] }))
 			.reduce((a, e) => Object.assign(a, { [e.name]: e.value }), {});
