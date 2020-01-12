@@ -1,22 +1,16 @@
-const bsv = require('bsv');
-const bitcoin = require('bitcoinjs-lib');
+const bitcoin = require('bsv');
 
 class Transaction {
 	static decodeTx(tx) {
-		const transaction = bitcoin.Transaction.fromHex(tx);
+		const transaction = bitcoin.Transaction(tx).toObject();
 
-		return {
-			hex: tx,
-			txid: transaction.getId(),
-			hash: transaction.getId(),
-			version: transaction.version,
-			locktime: transaction.lockTime,
-			vout: transaction.outs.map((e, index) => {
-				const script = bsv.Script.fromBuffer(e.script);
+		return Object.assign(transaction, {
+			vout: transaction.outputs.map((e, index) => {
+				const script = bitcoin.Script.fromBuffer(e.script);
 				const addressInfo = script.getAddressInfo();
 
 				const response = {
-					value: e.value,
+					value: e.satoshis,
 					n: index,
 					scriptPubKey: {
 						asm: script.toASM(),
@@ -33,7 +27,7 @@ class Transaction {
 
 				return response;
 			})
-		};
+		});
 	}
 }
 
