@@ -30,6 +30,7 @@ class BSVABI {
 
 	fromTx(tx) {
 		const transaction = Transaction.decodeTx(tx);
+		this.decodedTx = transaction;
 		this.args = transaction.vout.find(e => e.scriptPubKey.opReturn).scriptPubKey.opReturn.parts;
 		this.validate();
 		return this;
