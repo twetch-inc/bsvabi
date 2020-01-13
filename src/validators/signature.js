@@ -9,10 +9,10 @@ module.exports = (value, arg, errors, args, schemaArgs, index) => {
 		errors.push(`argument ${arg.name}: '${value}' does not match '${arg.value}'`);
 	}
 
-	const message = args.slice(arg.messageStartIndex, arg.messageEndIndex).join(' ');
+	const message = args.slice(arg.messageStartIndex, arg.messageEndIndex + 1).join(' ');
 	const address = args[arg.addressIndex];
 	const signature = args[index];
-	const valid = Signature.verify(message, address, signature);
+	const valid = Signature.sha256Verify(message, address, signature);
 
 	if (!valid) {
 		errors.push(`argument ${arg.name}: '${value}' is not a valid signature for this content`);

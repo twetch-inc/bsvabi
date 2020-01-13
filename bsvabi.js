@@ -59,7 +59,7 @@ class BSVABI {
 					const value = this.args
 						.slice(
 							this.action.args[index].messageStartIndex || 0,
-							this.action.args[index].messageEndIndex || index - 1
+							this.action.args[index].messageEndIndex + 1 || index - 1
 						)
 						.join(' ');
 
