@@ -5,7 +5,7 @@ module.exports = (value, arg, errors) => {
 		return;
 	}
 
-	if (arg.value && !value.match(arg.value)) {
+	if (arg.value && value !== arg.value) {
 		errors.push(`argument ${arg.name}: '${value}' does not match '${arg.value}'`);
 	}
 
