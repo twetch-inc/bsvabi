@@ -1,6 +1,6 @@
 {
   "name": "@twetch/bsvabi",
-  "version": "0.0.1-canary.7",
+  "version": "0.0.1-canary.8",
   "description": "bsvabi helpers",
   "main": "bsvabi.js",
   "scripts": {
