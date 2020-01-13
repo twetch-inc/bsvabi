@@ -1,6 +1,7 @@
 const Validators = require('./src/validators');
 const Transaction = require('./src/transaction');
 const Promise = require('bluebird');
+const Signature = require('./src/signature');
 
 class BSVABI {
 	constructor(abi, options = {}) {
@@ -63,7 +64,7 @@ class BSVABI {
 						)
 						.join(' ');
 
-					const sig = await this.options.sign(value);
+					const sig = await this.options.sign(Signature.sha256(value));
 					this.args[index] = sig;
 				}
 			},
