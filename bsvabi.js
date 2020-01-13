@@ -48,7 +48,7 @@ class BSVABI {
 
 	toObject() {
 		return this.action.args
-			.map((e, i) => ({ ...e, value: this.args[i] }))
+			.map((e, i) => ({ ...e, value: this.args[i] === 'null' ? null : this.args[i] }))
 			.reduce((a, e) => Object.assign(a, { [e.name]: e.value }), {});
 	}
 
