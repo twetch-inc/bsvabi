@@ -5,7 +5,7 @@ module.exports = (value, arg, errors, args, schemaArgs, index) => {
 		return;
 	}
 
-	if (arg.value && value !== arg.value) {
+	if (arg.value && !value.match(arg.value)) {
 		errors.push(`argument ${arg.name}: '${value}' does not match '${arg.value}'`);
 	}
 
