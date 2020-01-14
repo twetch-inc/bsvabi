@@ -53,18 +53,22 @@ class BSVABI {
 			.reduce((a, e) => Object.assign(a, { [e.name]: e.value }), {});
 	}
 
+	contentHash(index) {
+		let arg = this.action.args[index];
+		if (!arg) {
+			arg = this.action.args.find(e => e.type === 'Signature');
+		}
+		const value = this.args
+			.slice(arg.messageStartIndex || 0, arg.messageEndIndex + 1 || index - 1)
+			.join(' ');
+		return Signature.sha256(value);
+	}
+
 	async replace() {
 		const replacements = {
 			'#{mySignature}': async index => {
 				if (this.options.sign) {
-					const value = this.args
-						.slice(
-							this.action.args[index].messageStartIndex || 0,
-							this.action.args[index].messageEndIndex + 1 || index - 1
-						)
-						.join(' ');
-
-					const sig = await this.options.sign(Signature.sha256(value));
+					const sig = await this.options.sign(this.contentHash(index));
 					this.args[index] = sig;
 				}
 			},

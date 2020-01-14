@@ -6,11 +6,6 @@ class Signature {
 		return Message.verify(message, address, signature);
 	}
 
-	static sha256Verify(message, address, signature) {
-		message = Signature.sha256(message);
-		return Message.verify(message, address, signature);
-	}
-
 	static sha256(message) {
 		return bsv.crypto.Hash.sha256(Buffer.from(message)).toString('hex');
 	}
