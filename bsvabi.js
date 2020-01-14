@@ -64,27 +64,30 @@ class BSVABI {
 		return Signature.sha256(value);
 	}
 
-	async replace() {
-		const replacements = {
-			'#{mySignature}': async index => {
-				if (this.options.sign) {
-					const sig = await this.options.sign(this.contentHash(index));
-					this.args[index] = sig;
+	async replace(options) {
+		const replacements = Object.assign(
+			{
+				'#{mySignature}': async index => {
+					if (this.options.sign) {
+						const sig = await this.options.sign(this.contentHash(index));
+						this.args[index] = sig;
+					}
+				},
+				'#{myAddress}': async index => {
+					if (this.options.address) {
+						const address = await this.options.address();
+						this.args[index] = address;
+					}
+				},
+				'#{invoice}': async index => {
+					if (this.options.invoice) {
+						const invoice = await this.options.invoice();
+						this.args[index] = invoice;
+					}
 				}
 			},
-			'#{myAddress}': async index => {
-				if (this.options.address) {
-					const address = await this.options.address();
-					this.args[index] = address;
-				}
-			},
-			'#{invoice}': async index => {
-				if (this.options.invoice) {
-					const invoice = await this.options.invoice();
-					this.args[index] = invoice;
-				}
-			}
-		};
+			options
+		);
 
 		await Promise.map(
 			this.args,
