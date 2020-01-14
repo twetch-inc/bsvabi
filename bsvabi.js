@@ -77,6 +77,12 @@ class BSVABI {
 					const address = await this.options.address();
 					this.args[index] = address;
 				}
+			},
+			'#{invoice}': async index => {
+				if (this.options.invoice) {
+					const invoice = await this.options.invoice();
+					this.args[index] = invoice;
+				}
 			}
 		};
 
