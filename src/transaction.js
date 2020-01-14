@@ -17,11 +17,12 @@ class Transaction {
 						script: script.toHex(),
 						type: addressInfo.type,
 						addresses: !script.isDataOut() ? [script.toAddress().toString()] : null,
-						opReturn: script.isDataOut()
-							? {
-									parts: script.chunks.filter(e => e.buf).map(e => e.buf.toString())
-							  }
-							: null
+						opReturn:
+							script.isDataOut() || script.isSafeDataOut()
+								? {
+										parts: script.chunks.filter(e => e.buf).map(e => e.buf.toString())
+								  }
+								: null
 					}
 				};
 

@@ -9,6 +9,11 @@ module.exports = (value, arg, errors) => {
 		errors.push(`argument ${arg.name}: '${value}' does not match '${arg.value}'`);
 	}
 
+	if (!value) {
+		errors.push(`argument ${arg.name}: '${value}' is not defined`);
+		return; 
+	}
+
 	if (value.length !== 34) {
 		errors.push(`argument ${arg.name}: '${value}' does not match type '${arg.type}'`);
 	}
