@@ -1,4 +1,4 @@
-const Message = require('bsv/Message');
+const Message = require('bsv/message');
 const bsv = require('bsv');
 
 class Signature {
