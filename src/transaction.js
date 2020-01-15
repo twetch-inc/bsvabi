@@ -16,7 +16,7 @@ class Transaction {
 						asm: script.toASM(),
 						script: script.toHex(),
 						type: addressInfo.type,
-						addresses: !script.isDataOut() ? [script.toAddress().toString()] : null,
+						addresses: !script.isDataOut() ? [script.toAddress('testnet').toString()] : null,
 						opReturn:
 							script.isDataOut() || script.isSafeDataOut()
 								? {
