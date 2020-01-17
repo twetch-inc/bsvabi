@@ -1,7 +1,7 @@
 const bitcoin = require('bsv');
 
 class Transaction {
-	static decodeTx(tx) {
+	static decodeTx(tx, network) {
 		const transaction = bitcoin.Transaction(tx).toObject();
 
 		return Object.assign(transaction, {
@@ -16,7 +16,7 @@ class Transaction {
 						asm: script.toASM(),
 						script: script.toHex(),
 						type: addressInfo.type,
-						addresses: !script.isDataOut() ? [script.toAddress('testnet').toString()] : null,
+						addresses: !script.isDataOut() ? [script.toAddress(network).toString()] : null,
 						opReturn:
 							script.isDataOut() || script.isSafeDataOut()
 								? {
