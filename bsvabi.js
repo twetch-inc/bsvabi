@@ -1,11 +1,10 @@
 const Validators = require('./src/validators');
 const Transaction = require('./src/transaction');
-const Promise = require('bluebird');
 const Signature = require('./src/signature');
 
 class BSVABI {
 	constructor(abi, options = {}) {
-		this.network = options.network || 'mainnet'
+		this.network = options.network || 'mainnet';
 		this.options = options;
 		this.abi = abi;
 	}
@@ -87,18 +86,15 @@ class BSVABI {
 			options
 		);
 
-		await Promise.map(
-			this.args,
-			async (e, i) => {
-				if (this.action.args[i].replaceValue === e) {
-					const replacement = replacements[e];
-					if (replacement) {
-						this.args[i] = await replacement(i) || e;
-					}
+		for (let i in this.args) {
+			const e = this.args[i];
+			if (this.action.args[i].replaceValue === e) {
+				const replacement = replacements[e];
+				if (replacement) {
+					this.args[i] = (await replacement(i)) || e;
 				}
-			},
-			{ concurrency: 1 }
-		);
+			}
+		}
 
 		return this;
 	}

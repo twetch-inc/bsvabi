@@ -17,7 +17,6 @@
   },
   "homepage": "https://github.com/twetch-inc/bsvabi#readme",
   "dependencies": {
-    "bluebird": "3.7.2",
     "bsv": "1.2.0"
   },
   "devDependencies": {
