@@ -69,20 +69,17 @@ class BSVABI {
 			{
 				'#{mySignature}': async index => {
 					if (this.options.sign) {
-						const sig = await this.options.sign(this.contentHash(index));
-						this.args[index] = sig;
+						return this.options.sign(this.contentHash(index));
 					}
 				},
 				'#{myAddress}': async index => {
 					if (this.options.address) {
-						const address = await this.options.address();
-						this.args[index] = address;
+						return this.options.address();
 					}
 				},
 				'#{invoice}': async index => {
 					if (this.options.invoice) {
-						const invoice = await this.options.invoice();
-						this.args[index] = invoice;
+						return await this.options.invoice();
 					}
 				}
 			},
@@ -91,11 +88,11 @@ class BSVABI {
 
 		await Promise.map(
 			this.args,
-			(e, i) => {
+			async (e, i) => {
 				if (this.action.args[i].replaceValue === e) {
 					const replacement = replacements[e];
 					if (replacement) {
-						return replacement(i);
+						this.args[i] = await replacement(i);
 					}
 				}
 			},
