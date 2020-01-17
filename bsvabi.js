@@ -92,7 +92,7 @@ class BSVABI {
 				if (this.action.args[i].replaceValue === e) {
 					const replacement = replacements[e];
 					if (replacement) {
-						this.args[i] = await replacement(i);
+						this.args[i] = await replacement(i) || e;
 					}
 				}
 			},
