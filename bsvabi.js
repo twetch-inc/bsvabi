@@ -4,6 +4,7 @@ const Signature = require('./src/signature');
 const Base64Binary = require('./src/base64-binary');
 const _Buffer = require('buffer/');
 const fs = require('fs');
+const path = require('path');
 
 class BSVABI {
 	constructor(abi, options = {}) {
@@ -28,6 +29,15 @@ class BSVABI {
 		this.args = this.action.args.map(
 			(e, i) => object[e.name] || e.value || e.replaceValue || e.defaultValue
 		);
+		this.validate();
+		return this;
+	}
+
+	fromFile(filepath) {
+		const file = fs.readFileSync(filepath);
+		this.args = this.action.args.map(e => e.value || e.replaceValue || e.defaultValue);
+		this.args[this.action.contentIndex] = file;
+		this.args[this.action.filenameIndex] = path.basename(filepath);
 		this.validate();
 		return this;
 	}

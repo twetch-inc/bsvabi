@@ -29,7 +29,7 @@ const abi = {
 				{ name: 'mapTypeKey', type: 'String', value: 'type' },
 				{ name: 'mapType', type: 'String', defaultValue: 'post' },
 				{ name: 'mapTimestampKey', type: 'String', value: 'timestamp' },
-				{ name: 'mapTimestamp', type: 'String' },
+				{ name: 'mapTimestamp', type: 'String', defaultValue: 'null' },
 				{ name: 'mapAppKey', type: 'String', value: 'app' },
 				{ name: 'mapApp', type: 'String', value: 'twetch' },
 				{ name: 'pipe2', type: 'String', value: '|' },
@@ -89,13 +89,15 @@ const abi = {
 	}
 };
 
-const twetchABI = new BSVABI(abi);
-
 (async () => {
 	const response = await axios.get(
 		'https://ink.twetch.com/nodeapi/tx/05c2a00d804e8fac0bdaf7cfe5c7edd947f7547ae79086f9ef71d999246a4b60'
 	);
 
-	const post = twetchABI.action('twetch/post@0.0.0').fromTx(response.data.hex);
+	const post = new BSVABI(abi).action('twetch/post@0.0.0').fromTx(response.data.hex);
 	post.toFile();
+
+	const file = new BSVABI(abi)
+		.action('twetch/post@0.0.0')
+		.fromFile('twetch_twembed1579847869652.jpg');
 })();
