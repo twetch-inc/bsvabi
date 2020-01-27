@@ -20,7 +20,8 @@ class Transaction {
 						opReturn:
 							script.isDataOut() || script.isSafeDataOut()
 								? {
-										parts: script.chunks.filter(e => e.buf).map(e => e.buf.toString())
+										parts: script.chunks.filter(e => e.buf).map(e => e.buf.toString()),
+										bufferParts: script.chunks.filter(e => e.buf).map(e => e.buf)
 								  }
 								: null
 					}

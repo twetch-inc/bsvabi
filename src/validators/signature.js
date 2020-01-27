@@ -10,11 +10,17 @@ module.exports = (value, arg, errors, args, schemaArgs, index) => {
 	}
 
 	const message = args.slice(arg.messageStartIndex, arg.messageEndIndex + 1).join(' ');
+	const bufferMessage = Buffer.concat(
+		args.slice(arg.messageStartIndex, arg.messageEndIndex + 1).map(e => Buffer.from(e))
+	);
+
 	const address = args[arg.addressIndex];
 	const signature = args[index];
-	const valid = Signature.verify(Signature.sha256(message), address, signature);
 
-	if (!valid) {
+	const bufferValid = Signature.verify(Signature.sha256(bufferMessage), address, signature);
+	const stringValid = Signature.verify(Signature.sha256(message), address, signature);
+
+	if (!bufferValid && !stringValid) {
 		errors.push(`argument ${arg.name}: '${value}' is not a valid signature for this content`);
 	}
 };

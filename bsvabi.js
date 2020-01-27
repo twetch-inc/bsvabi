@@ -1,6 +1,9 @@
 const Validators = require('./src/validators');
 const Transaction = require('./src/transaction');
 const Signature = require('./src/signature');
+const Base64Binary = require('./src/base64-binary');
+const _Buffer = require('buffer/');
+const fs = require('fs');
 
 class BSVABI {
 	constructor(abi, options = {}) {
@@ -32,7 +35,25 @@ class BSVABI {
 	fromTx(tx) {
 		const transaction = Transaction.decodeTx(tx, this.network);
 		this.decodedTx = transaction;
-		this.args = transaction.vout.find(e => e.scriptPubKey.opReturn).scriptPubKey.opReturn.parts;
+		const dataOutput = transaction.vout.find(e => e.scriptPubKey.opReturn);
+		this.args = dataOutput.scriptPubKey.opReturn.parts;
+
+		this.action.args.map((e, i) => {
+			if (!e.encodingIndex) {
+				return;
+			}
+
+			const encoding = this.args[e.encodingIndex];
+
+			if (encoding === 'binary') {
+				this.args[i] = _Buffer.Buffer.from(
+					Base64Binary.decodeArrayBuffer(
+						dataOutput.scriptPubKey.opReturn.bufferParts[i].toString('base64')
+					)
+				);
+			}
+		});
+
 		this.validate();
 		return this;
 	}
@@ -41,6 +62,10 @@ class BSVABI {
 		this.args = args;
 		this.validate();
 		return this;
+	}
+
+	toChunks() {
+		return this.args.map(e => Buffer.from(e));
 	}
 
 	toArray() {
@@ -53,14 +78,19 @@ class BSVABI {
 			.reduce((a, e) => Object.assign(a, { [e.name]: e.value }), {});
 	}
 
+	toFile() {
+		const path = `${__dirname}/${this.args[this.action.filenameIndex]}`;
+		fs.writeFileSync(path, this.args[this.action.contentIndex]);
+	}
+
 	contentHash(index) {
 		let arg = this.action.args[index];
 		if (!arg) {
 			arg = this.action.args.find(e => e.type === 'Signature');
 		}
-		const value = this.args
-			.slice(arg.messageStartIndex || 0, arg.messageEndIndex + 1 || index - 1)
-			.join(' ');
+		const value = Buffer.concat(
+			this.toChunks().slice(arg.messageStartIndex || 0, arg.messageEndIndex + 1 || index - 1)
+		);
 		return Signature.sha256(value);
 	}
 
@@ -105,6 +135,10 @@ class BSVABI {
 		this.action.args.forEach((e, i) => {
 			const value = this.args[i];
 			const validator = Validators[e.type];
+
+			if (!e.type) {
+				return;
+			}
 
 			if (!validator) {
 				return errors.push(`unsupported type '${e.type}' for argument ${e.name}: '${value}'`);
