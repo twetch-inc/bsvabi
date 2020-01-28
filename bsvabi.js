@@ -38,6 +38,18 @@ class BSVABI {
 		this.args = this.action.args.map(e => e.value || e.replaceValue || e.defaultValue);
 		this.args[this.action.contentIndex] = file;
 		this.args[this.action.filenameIndex] = path.basename(filepath);
+		this.args[this.action.contentTypeIndex] = {
+			'.txt': 'text/plain',
+			'.jpeg': 'image/jpeg',
+			'.jpg': 'image/jpeg',
+			'.png': 'image/png',
+			'.gif': 'image/gif',
+			'.tiff': 'image/tiff',
+			'.jgd': 'image/jgd',
+			'.bmp': 'image/bmp',
+			'.webp': 'image/webp',
+			'.mp4': 'video/mp4'
+		}[path.extname(filepath)];
 		this.validate();
 		return this;
 	}

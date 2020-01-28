@@ -9,6 +9,7 @@ const abi = {
 		'twetch/post@0.0.0': {
 			contentIndex: 1,
 			filenameIndex: 4,
+			contentTypeIndex: 2,
 			args: [
 				{ name: 'bNamespace', type: 'Address', value: '19HxigV4QyBv3tHpQVcUEQyq1pzZVdoAut' },
 				{ name: 'bContent', encodingIndex: 3 },
@@ -94,10 +95,12 @@ const abi = {
 		'https://ink.twetch.com/nodeapi/tx/05c2a00d804e8fac0bdaf7cfe5c7edd947f7547ae79086f9ef71d999246a4b60'
 	);
 
-	const post = new BSVABI(abi).action('twetch/post@0.0.0').fromTx(response.data.hex);
-	post.toFile();
+	//const post = new BSVABI(abi).action('twetch/post@0.0.0').fromTx(response.data.hex);
+	//post.toFile();
 
 	const file = new BSVABI(abi)
 		.action('twetch/post@0.0.0')
 		.fromFile('twetch_twembed1579847869652.jpg');
+
+	console.log(file.toArray());
 })();
