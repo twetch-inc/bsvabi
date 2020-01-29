@@ -39,6 +39,7 @@ class BSVABI {
 		this.args = this.action.args.map(
 			(e, i) => this.args[i] || e.value || e.replaceValue || e.defaultValue
 		);
+		this.args[this.action.encodingIndex] = 'binary';
 		this.args[this.action.contentIndex] = file;
 		this.args[this.action.filenameIndex] = path.basename(filepath);
 		this.args[this.action.contentTypeIndex] = {
