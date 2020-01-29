@@ -11,6 +11,7 @@ class BSVABI {
 		this.network = options.network || 'mainnet';
 		this.options = options;
 		this.abi = abi;
+		this.args = [];
 	}
 
 	action(actionName) {
@@ -27,7 +28,7 @@ class BSVABI {
 
 	fromObject(object) {
 		this.args = this.action.args.map(
-			(e, i) => object[e.name] || e.value || e.replaceValue || e.defaultValue
+			(e, i) => object[e.name] || this.args[i] || e.value || e.replaceValue || e.defaultValue
 		);
 		this.validate();
 		return this;
@@ -35,7 +36,9 @@ class BSVABI {
 
 	fromFile(filepath) {
 		const file = fs.readFileSync(filepath);
-		this.args = this.action.args.map(e => e.value || e.replaceValue || e.defaultValue);
+		this.args = this.action.args.map(
+			(e, i) => this.args[i] || e.value || e.replaceValue || e.defaultValue
+		);
 		this.args[this.action.contentIndex] = file;
 		this.args[this.action.filenameIndex] = path.basename(filepath);
 		this.args[this.action.contentTypeIndex] = {
@@ -50,6 +53,7 @@ class BSVABI {
 			'.webp': 'image/webp',
 			'.mp4': 'video/mp4'
 		}[path.extname(filepath)];
+
 		this.validate();
 		return this;
 	}
