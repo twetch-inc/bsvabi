@@ -73,11 +73,7 @@ class BSVABI {
 			const encoding = this.args[e.encodingIndex];
 
 			if (encoding === 'binary') {
-				this.args[i] = _Buffer.Buffer.from(
-					Base64Binary.decodeArrayBuffer(
-						dataOutput.scriptPubKey.opReturn.bufferParts[i].toString('base64')
-					)
-				);
+				this.args[i] = dataOutput.scriptPubKey.opReturn.bufferParts[i];
 			}
 		});
 
