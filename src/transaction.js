@@ -9,6 +9,10 @@ class Transaction {
 				const script = bitcoin.Script.fromBuffer(e.script);
 				const addressInfo = script.getAddressInfo();
 
+				if (script.toBuffer().length >= 100000) {
+					throw new Error('Content is over 100KB, try again with smaller content');
+				}
+
 				const response = {
 					value: e.satoshis,
 					n: index,
