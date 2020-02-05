@@ -1,5 +1,5 @@
-const Message = require('bsv/message');
-const bsv = require('bsv');
+const Message = require('../bsv/message');
+const Hash = require('../bsv/lib/crypto/hash');
 
 class Signature {
 	static verify(message, address, signature) {
@@ -7,7 +7,7 @@ class Signature {
 	}
 
 	static sha256(message) {
-		return bsv.crypto.Hash.sha256(Buffer.from(message)).toString('hex');
+		return Hash.sha256(Buffer.from(message)).toString('hex');
 	}
 }
 

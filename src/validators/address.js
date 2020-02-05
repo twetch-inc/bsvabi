@@ -1,4 +1,4 @@
-const bsv = require('bsv');
+const Address = require('../../bsv/lib/address');
 
 module.exports = (value, arg, errors) => {
 	if (value === arg.replaceValue) {
@@ -11,15 +11,11 @@ module.exports = (value, arg, errors) => {
 
 	if (!value) {
 		errors.push(`argument ${arg.name}: '${value}' is not defined`);
-		return; 
-	}
-
-	if (value.length !== 34) {
-		errors.push(`argument ${arg.name}: '${value}' does not match type '${arg.type}'`);
+		return;
 	}
 
 	try {
-		bsv.encoding.Base58Check.fromString(value);
+		Address.fromString(value);
 	} catch (e) {
 		errors.push(`argument ${arg.name}: '${value}' does not match type '${arg.type}'`);
 	}

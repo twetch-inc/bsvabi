@@ -1,1 +1,13 @@
+.DS_Store
+.bit
+.eslintignore
+.eslintrc.js
 .git
+.gitignore
+.gitmodules
+.prettierignore
+.prettierrc
+bsv
+bsvabi.js
+index.js
+src

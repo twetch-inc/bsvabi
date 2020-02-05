@@ -1,12 +1,13 @@
-const bitcoin = require('bsv');
+const BSVTransaction = require('../bsv/lib/transaction');
+const Script = require('../bsv/lib/script');
 
 class Transaction {
 	static decodeTx(tx, network) {
-		const transaction = bitcoin.Transaction(tx).toObject();
+		const transaction = BSVTransaction(tx).toObject();
 
 		return Object.assign(transaction, {
 			vout: transaction.outputs.map((e, index) => {
-				const script = bitcoin.Script.fromBuffer(e.script);
+				const script = Script.fromBuffer(e.script);
 				const addressInfo = script.getAddressInfo();
 
 				const response = {
@@ -20,7 +21,8 @@ class Transaction {
 						opReturn:
 							script.isDataOut() || script.isSafeDataOut()
 								? {
-										parts: script.chunks.filter(e => e.buf).map(e => e.buf.toString())
+										parts: script.chunks.filter(e => e.buf).map(e => e.buf.toString()),
+										bufferParts: script.chunks.filter(e => e.buf).map(e => e.buf)
 								  }
 								: null
 					}

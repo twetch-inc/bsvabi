@@ -1,10 +1,14 @@
 {
   "name": "@twetch/bsvabi",
-  "version": "0.0.1-canary.22",
+  "version": "0.0.2",
   "description": "bsvabi helpers",
-  "main": "bsvabi.js",
+  "main": "dist/bsvabi.node.min.js",
+  "browser": "dist/bsvabi.min.js",
   "scripts": {
-    "test": ""
+    "build": "npm run build-browser && npm run build-node",
+    "build-browser": "node_modules/browserify/bin/cmd.js bsvabi.js -o dist/bsvabi.js --standalone bsvabi && node_modules/terser/bin/terser -o dist/bsvabi.min.js --module --compress --mangle -- dist/bsvabi.js && rm dist/bsvabi.js && rm -f dist/bsvabi.js.tmp-* || true",
+    "build-node": "node_modules/browserify/bin/cmd.js bsvabi.js -o dist/bsvabi.node.js --standalone bsvabi --node --dg --im --no-builtins && node_modules/terser/bin/terser -o dist/bsvabi.node.min.js --module --compress --mangle -- dist/bsvabi.node.js && rm dist/bsvabi.node.js && rm -f dist/bsvabi.node.js.tmp-* || true",
+    "dev": "nodemon --exec npm run build"
   },
   "repository": {
     "type": "git",
@@ -16,12 +20,11 @@
     "url": "https://github.com/twetch-inc/bsvabi/issues"
   },
   "homepage": "https://github.com/twetch-inc/bsvabi#readme",
-  "dependencies": {
-    "bsv": "1.2.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "axios": "^0.19.1",
     "babel-eslint": "10.0.3",
+    "browserify": "16.5.0",
     "eslint": "6.5.1",
     "eslint-config-prettier": "6.3.0",
     "eslint-plugin-class-property": "1.1.0",
@@ -30,8 +33,9 @@
     "eslint-plugin-react-hooks": "2.1.1",
     "husky": "3.0.8",
     "lint-staged": "9.4.1",
-    "nodemon": "1.19.3",
-    "prettier": "1.18.2"
+    "nodemon": "^2.0.2",
+    "prettier": "1.18.2",
+    "terser": "4.6.3"
   },
   "lint-staged": {
     "**/*.js": [
