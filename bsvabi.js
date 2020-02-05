@@ -1,8 +1,6 @@
 const Validators = require('./src/validators');
 const Transaction = require('./src/transaction');
 const Signature = require('./src/signature');
-const Base64Binary = require('./src/base64-binary');
-const _Buffer = require('buffer/');
 const fs = require('fs');
 const path = require('path');
 

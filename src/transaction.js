@@ -1,17 +1,14 @@
-const bitcoin = require('bsv');
+const BSVTransaction = require('../bsv/lib/transaction');
+const Script = require('../bsv/lib/script');
 
 class Transaction {
 	static decodeTx(tx, network) {
-		const transaction = bitcoin.Transaction(tx).toObject();
+		const transaction = BSVTransaction(tx).toObject();
 
 		return Object.assign(transaction, {
 			vout: transaction.outputs.map((e, index) => {
-				const script = bitcoin.Script.fromBuffer(e.script);
+				const script = Script.fromBuffer(e.script);
 				const addressInfo = script.getAddressInfo();
-
-				if (script.toBuffer().length >= 100000) {
-					throw new Error('Content is over 100KB, try again with smaller content');
-				}
 
 				const response = {
 					value: e.satoshis,

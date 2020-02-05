@@ -1,4 +1,4 @@
-const bitcoin = require('bsv');
+const Address = require('../../bsv/lib/address');
 
 module.exports = (value, arg, errors) => {
 	if (value === arg.replaceValue) {
@@ -15,7 +15,7 @@ module.exports = (value, arg, errors) => {
 	}
 
 	try {
-		bitcoin.Address.fromString(value);
+		Address.fromString(value);
 	} catch (e) {
 		errors.push(`argument ${arg.name}: '${value}' does not match type '${arg.type}'`);
 	}
