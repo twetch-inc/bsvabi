@@ -1,8 +1,7 @@
 const Validators = require('./src/validators');
 const Transaction = require('./src/transaction');
 const Signature = require('./src/signature');
-const fs = require('fs');
-const path = require('path');
+const isNode = typeof window === 'undefined';
 
 class BSVABI {
 	constructor(abi, options = {}) {
@@ -10,6 +9,18 @@ class BSVABI {
 		this.options = options;
 		this.abi = abi;
 		this.args = [];
+
+		if (options.action) {
+			this.action(options.action);
+		}
+	}
+
+	get fs() {
+		return isNode ? eval(`require('fs')`) : {};
+	}
+
+	get path() {
+		return isNode ? eval(`require('path')`) : {};
 	}
 
 	action(actionName) {
@@ -33,13 +44,13 @@ class BSVABI {
 	}
 
 	fromFile(filepath) {
-		const file = fs.readFileSync(filepath);
+		const file = this.fs.readFileSync(filepath);
 		this.args = this.action.args.map(
 			(e, i) => this.args[i] || e.value || e.replaceValue || e.defaultValue
 		);
 		this.args[this.action.encodingIndex] = 'binary';
 		this.args[this.action.contentIndex] = file;
-		this.args[this.action.filenameIndex] = path.basename(filepath);
+		this.args[this.action.filenameIndex] = this.path.basename(filepath);
 		this.args[this.action.contentTypeIndex] = {
 			'.txt': 'text/plain',
 			'.jpeg': 'image/jpeg',
@@ -51,7 +62,7 @@ class BSVABI {
 			'.bmp': 'image/bmp',
 			'.webp': 'image/webp',
 			'.mp4': 'video/mp4'
-		}[path.extname(filepath)];
+		}[this.path.extname(filepath)];
 
 		this.validate();
 		return this;
@@ -101,7 +112,7 @@ class BSVABI {
 
 	toFile() {
 		const path = `${__dirname}/${this.args[this.action.filenameIndex]}`;
-		fs.writeFileSync(path, this.args[this.action.contentIndex]);
+		this.fs.writeFileSync(path, this.args[this.action.contentIndex]);
 	}
 
 	contentHash(index) {
