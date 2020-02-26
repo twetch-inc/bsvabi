@@ -116,6 +116,10 @@ class BSVABI {
 	}
 
 	contentHash(index) {
+		if (!this.action.args.length) {
+			return;
+		}
+
 		let arg = this.action.args[index];
 		if (!arg) {
 			arg = this.action.args.find(e => e.type === 'Signature');
