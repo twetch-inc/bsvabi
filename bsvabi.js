@@ -61,7 +61,8 @@ class BSVABI {
 			'.jgd': 'image/jgd',
 			'.bmp': 'image/bmp',
 			'.webp': 'image/webp',
-			'.mp4': 'video/mp4'
+			'.mp4': 'video/mp4',
+			'.mp3': 'audio/mp3'
 		}[this.path.extname(filepath)];
 
 		this.validate();
