@@ -11,7 +11,7 @@ module.exports = (value, arg, errors, args, schemaArgs, index) => {
 
 	const message = args.slice(arg.messageStartIndex, arg.messageEndIndex + 1).join(' ');
 	const bufferMessage = Buffer.concat(
-		args.slice(arg.messageStartIndex, arg.messageEndIndex + 1).map(e => Buffer.from(e))
+		args.slice(arg.messageStartIndex || 0, arg.messageEndIndex + 1).map(e => Buffer.from(e))
 	);
 
 	const address = args[arg.addressIndex];
