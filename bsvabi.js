@@ -125,18 +125,8 @@ class BSVABI {
 		s.add(Opcode.OP_FALSE);
 		s.add(Opcode.OP_RETURN);
 		this.args.forEach(function(item) {
-			if (item.constructor.name === 'ArrayBuffer') {
-				let buffer = _Buffer.Buffer.from(item);
-				s.add(buffer);
-			} else if (item.constructor.name === 'Buffer') {
-				s.add(item);
-			} else if (typeof item === 'string') {
-				if (/^0x/i.test(item)) {
-					s.add(Buffer.from(item.slice(2), 'hex'));
-				} else {
-					s.add(Buffer.from(item));
-				}
-			}
+			let buffer = _Buffer.Buffer.from(item);
+			s.add(buffer);
 		});
 		return s;
 	}
