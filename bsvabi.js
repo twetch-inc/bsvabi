@@ -1,7 +1,11 @@
+const _Buffer = require('buffer/');
 const Validators = require('./src/validators');
 const Transaction = require('./src/transaction');
 const Signature = require('./src/signature');
 const isNode = typeof window === 'undefined';
+
+const Script = require('./bsv/lib/script');
+const Opcode = require('./bsv/lib/opcode');
 
 class BSVABI {
 	constructor(abi, options = {}) {
@@ -114,6 +118,27 @@ class BSVABI {
 	toFile() {
 		const path = `${__dirname}/${this.args[this.action.filenameIndex]}`;
 		this.fs.writeFileSync(path, this.args[this.action.contentIndex]);
+	}
+
+	toScript() {
+		let s = new Script();
+		s.add(Opcode.OP_FALSE);
+		s.add(Opcode.OP_RETURN);
+		this.args.forEach(function(item) {
+			if (item.constructor.name === 'ArrayBuffer') {
+				let buffer = _Buffer.Buffer.from(item);
+				s.add(buffer);
+			} else if (item.constructor.name === 'Buffer') {
+				s.add(item);
+			} else if (typeof item === 'string') {
+				if (/^0x/i.test(item)) {
+					s.add(Buffer.from(item.slice(2), 'hex'));
+				} else {
+					s.add(Buffer.from(item));
+				}
+			}
+		});
+		return s;
 	}
 
 	contentHash(index) {
