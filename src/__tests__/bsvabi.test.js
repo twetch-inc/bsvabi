@@ -57,9 +57,59 @@ const abi = {
 	}
 };
 
+test('action', () => {
+	const instance = new BSVABI(abi).action('twetch/post@0.0.1');
+	expect(instance.action).toStrictEqual({
+		type: 'post',
+		contentIndex: 1,
+		contentTypeIndex: 2,
+		encodingIndex: 3,
+		filenameIndex: 4,
+		args: [
+			{ name: 'bNamespace', type: 'Address', value: '19HxigV4QyBv3tHpQVcUEQyq1pzZVdoAut' },
+			{ name: 'bContent', encodingIndex: 3 },
+			{ name: 'bContentType', type: 'String', defaultValue: 'text/plain' },
+			{ name: 'bEncoding', type: 'String', defaultValue: 'text' },
+			{ name: 'bFilename', type: 'String', defaultValue: 'twetch.txt' },
+			{ name: 'pipe', type: 'String', value: '|' },
+			{ name: 'mapNamespace', type: 'Address', value: '1PuQa7K62MiKCtssSLKy1kh56WWU7MtUR5' },
+			{ name: 'mapAction', type: 'String', value: 'SET' },
+			{ name: 'mapTwdataKey', type: 'String', value: 'twdata_json' },
+			{ name: 'mapTwdata', type: 'String', defaultValue: 'null' },
+			{ name: 'mapUrlKey', type: 'String', value: 'url' },
+			{ name: 'mapUrl', type: 'String', defaultValue: 'null' },
+			{ name: 'mapCommentKey', type: 'String', value: 'comment' },
+			{ name: 'mapComment', type: 'String', defaultValue: 'null' },
+			{ name: 'mapMbUserKey', type: 'String', value: 'mb_user' },
+			{ name: 'mapMbUser', type: 'String', defaultValue: 'null' },
+			{ name: 'mapReplyKey', type: 'String', defaultValue: 'reply' },
+			{ name: 'mapReply', type: 'String', defaultValue: 'null' },
+			{ name: 'mapTypeKey', type: 'String', value: 'type' },
+			{ name: 'mapType', type: 'String', defaultValue: 'post' },
+			{ name: 'mapTimestampKey', type: 'String', value: 'timestamp' },
+			{ name: 'mapTimestamp', type: 'String', defaultValue: 'null' },
+			{ name: 'mapAppKey', type: 'String', value: 'app' },
+			{ name: 'mapApp', type: 'String', value: 'twetch' },
+			{ name: 'mapInvoiceKey', type: 'String', value: 'invoice' },
+			{ name: 'mapInvoice', type: 'String', replaceValue: '#{invoice}' },
+			{ name: 'pipe2', type: 'String', value: '|' },
+			{ name: 'aipNamespace', type: 'Address', value: '15PciHG22SNLQJXMoSUaWVi7WSqc7hCfva' },
+			{ name: 'aipSigningAlgorithm', type: 'String', value: 'BITCOIN_ECDSA' },
+			{ name: 'aipSigningAddress', type: 'Address', replaceValue: '#{myAddress}' },
+			{
+				name: 'aipSignature',
+				type: 'Signature',
+				replaceValue: '#{mySignature}',
+				messageStartIndex: 0,
+				messageEndIndex: 25,
+				addressIndex: 29
+			}
+		]
+	});
+});
+
 test('fromTx', () => {
-	const bsvabi = new BSVABI(abi);
-	const response = bsvabi.action('twetch/post@0.0.1').fromTx(rawTx);
+	const response = new BSVABI(abi).action('twetch/post@0.0.1').fromTx(rawTx);
 	expect(response.toArray()).toStrictEqual([
 		'19HxigV4QyBv3tHpQVcUEQyq1pzZVdoAut',
 		'workflows moving on chain',
@@ -96,8 +146,9 @@ test('fromTx', () => {
 });
 
 test('fromObject', () => {
-	const bsvabi = new BSVABI(abi);
-	const response = bsvabi.action('twetch/post@0.0.1').fromObject({ bContent: 'hello world' });
+	const response = new BSVABI(abi)
+		.action('twetch/post@0.0.1')
+		.fromObject({ bContent: 'hello world' });
 	expect(response.toArray()).toStrictEqual([
 		'19HxigV4QyBv3tHpQVcUEQyq1pzZVdoAut',
 		'hello world',
@@ -134,8 +185,7 @@ test('fromObject', () => {
 });
 
 test('fromArray', () => {
-	const bsvabi = new BSVABI(abi);
-	const response = bsvabi
+	const response = new BSVABI(abi)
 		.action('twetch/post@0.0.1')
 		.fromArgs([
 			'19HxigV4QyBv3tHpQVcUEQyq1pzZVdoAut',
