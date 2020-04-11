@@ -1,5 +1,6 @@
-const BSVTransaction = require('../bsv/lib/transaction');
-const Script = require('../bsv/lib/script');
+const bitcoin = require('../bsv');
+const BSVTransaction = bitcoin.Transaction;
+const Script = bitcoin.Script;
 
 class Transaction {
 	static decodeTx(tx, network) {
