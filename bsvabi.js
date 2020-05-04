@@ -19,6 +19,10 @@ class BSVABI {
 		}
 	}
 
+	static get bitcoin() {
+		return require('bsv');
+	}
+
 	get fs() {
 		return isNode ? eval(`require('fs')`) : {};
 	}
