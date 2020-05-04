@@ -182,6 +182,10 @@ class BSVABI {
 	}
 
 	validate() {
+		if (this.options.disableValidation) {
+			return;
+		}
+
 		const errors = [];
 
 		this.action.args.forEach((e, i) => {
