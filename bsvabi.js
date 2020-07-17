@@ -20,7 +20,15 @@ class BSVABI {
 	}
 
 	static get bitcoin() {
-		return require('bsv');
+		return require('./bsv');
+	}
+
+	static get IES() {
+		return require('./bsv/ecies');
+	}
+
+	static get Mnemonic() {
+		return require('./bsv/mnemonic');
 	}
 
 	get fs() {
