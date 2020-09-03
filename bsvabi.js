@@ -4,8 +4,11 @@ const Transaction = require('./src/transaction');
 const Signature = require('./src/signature');
 const isNode = typeof window === 'undefined';
 
+const ECDSA = require('./bsv/lib/crypto/ecdsa');
 const Script = require('./bsv/lib/script');
 const Opcode = require('./bsv/lib/opcode');
+const bsvSignature = require('./bsv/lib/crypto/signature');
+const bsvMessage = require('./bsv/lib/message');
 
 class BSVABI {
 	constructor(abi, options = {}) {
@@ -37,6 +40,14 @@ class BSVABI {
 
 	get path() {
 		return isNode ? eval(`require('path')`) : {};
+	}
+
+	signaturePublicKey() {
+		const signature = this.args[this.action.args.findIndex(e => e.type === 'Signature')];
+		const ecdsa = new ECDSA();
+		ecdsa.hashbuf = bsvMessage(this.contentHash()).magicHash();
+		ecdsa.sig = bsvSignature.fromCompact(Buffer.from(signature, 'base64'));
+		return ecdsa.toPublicKey().toString('hex');
 	}
 
 	action(actionName) {
