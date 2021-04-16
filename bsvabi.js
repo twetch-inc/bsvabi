@@ -34,6 +34,10 @@ class BSVABI {
 		return require('./bsv/mnemonic');
 	}
 
+	static get Transaction() {
+		return Transaction;
+	}
+
 	get fs() {
 		return isNode ? eval(`require('fs')`) : {};
 	}
