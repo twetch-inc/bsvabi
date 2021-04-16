@@ -23,7 +23,7 @@
   "homepage": "https://github.com/twetch-inc/bsvabi#readme",
   "dependencies": {},
   "devDependencies": {
-    "axios": "^0.19.1",
+    "axios": "^0.21.1",
     "babel-eslint": "10.0.3",
     "browserify": "16.5.0",
     "eslint": "6.5.1",
