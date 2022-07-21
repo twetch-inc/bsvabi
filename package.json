@@ -37,7 +37,7 @@
     "lint-staged": "9.4.1",
     "nodemon": "^2.0.2",
     "prettier": "1.18.2",
-    "terser": "4.6.3"
+    "terser": "4.8.1"
   },
   "lint-staged": {
     "**/*.js": [
